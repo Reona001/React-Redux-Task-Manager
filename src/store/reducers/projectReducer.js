@@ -25,3 +25,5 @@ const projectReducer = (state = initState, action) => {
 };
 
 export default projectReducer;
+
+// Stored in the project property on the state and we want to access that from the dashboard

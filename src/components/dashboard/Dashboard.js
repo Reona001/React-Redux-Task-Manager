@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import Notifications from "./Notifications";
 import ProjectList from "../projects/ProjectList";
+import { connect } from "react-redux";
 
 class Dashboard extends Component {
   render() {
@@ -19,7 +20,17 @@ class Dashboard extends Component {
     );
   }
 }
-export default Dashboard;
+
+const mapStateToProps = (state) => {
+  return {
+    projects: state.project.projects,
+  };
+};
+
+export default connect(mapStateToProps)(Dashboard);
+
+// we are gettting the property of project.projects in the state and attaching it to this component props
+// so that we can use it inside this component
 
 // Materialize css notes
 // div.col.s12.m6
