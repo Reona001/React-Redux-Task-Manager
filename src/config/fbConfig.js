@@ -21,3 +21,17 @@ firebase.initializeApp(firebaseConfig);
 firebase.fireStore().settings({ timestampsInSnapshots: true });
 
 export default firebase;
+
+// Projects Collection
+// - title
+// - content
+// - authorFirstName
+// - authorLastName
+// - authorId
+// - timestamp
+
+// Users Collection
+// - info about app users
+
+// Notifications Collection
+// - info about notifications
