@@ -8,8 +8,15 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./store/reducers/rootReducer";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import { getFirestore } from "redux-firestore";
+import { getFirebase } from "react-redux-firebase";
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }))
+);
+// We are passing in extra argument, which is an object from the
+// react-redux-firebase tools, so we can use it in the action creator.
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
