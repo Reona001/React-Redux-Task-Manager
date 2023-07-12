@@ -18,13 +18,15 @@ const store = createStore(
   compose(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }))
   )
+  // redux store enhancer ended with the version 6 update so no longer available
   // reduxFirestore(fbConfig)
   // reactReduxFirebase(fbConfig)
 );
 // We are passing in extra argument, which is an object from the
 // react-redux-firebase tools, so we can use it in the action creator.
-
 // const root = ReactDOM.createRoot(document.getElementById("root"));
+// createRoot was not functioning so we switched to ReactDOM.render method
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
