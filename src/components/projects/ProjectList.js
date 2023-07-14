@@ -10,10 +10,6 @@ const ProjectList = ({ projects }) => {
         projects.map((project) => {
           return <ProjectSummary project={project} key={project.id} />;
         })}
-      {/* <ProjectSummary />
-      <ProjectSummary />
-      <ProjectSummary />
-      <ProjectSummary /> */}
     </div>
   );
 };

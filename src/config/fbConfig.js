@@ -13,9 +13,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
-// const app = firebase.initializeApp();
-
-const fbConfig = {
+export const fbConfig = {
   apiKey: "AIzaSyCUs2eFgbosfEIC5hqN85Y091t12SfDOgY",
   authDomain: "mario-plan-c9c7c.firebaseapp.com",
   projectId: "mario-plan-c9c7c",
