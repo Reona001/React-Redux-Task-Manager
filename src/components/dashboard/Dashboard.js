@@ -29,7 +29,8 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    projects: state.project.projects,
+    // projects: state.project.projects, // dummy data
+    projects: state.firestore.ordered.projects,
   };
 };
 // using compose to use multiple hire order functions
