@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SignedOutLinks";
+import { connect } from "react-redux";
+
 // We can use a functional component not a class component because we won't be using a state
 // We want to use conditionals to show logout and signin links
 
@@ -19,4 +21,9 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {};
+};
+// export default Navbar;
+export default connect(mapStateToProps)(Navbar);
