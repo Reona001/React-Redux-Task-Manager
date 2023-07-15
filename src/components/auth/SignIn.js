@@ -21,6 +21,10 @@ class SignIn extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log(this.state);
+    // here we are using the this.props.signIn passed down from
+    // the parent using connect and mapDispatchToProps to pass in
+    // the state which holds the form submit object
+    this.props.signIn(this.state);
   };
 
   render() {
