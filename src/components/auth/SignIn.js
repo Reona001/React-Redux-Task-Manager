@@ -28,6 +28,8 @@ class SignIn extends Component {
   };
 
   render() {
+    // destructuring this.props
+    const { authError } = this.props;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -42,12 +44,22 @@ class SignIn extends Component {
           </div>
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Login</button>
+            <div className="red-text center">
+              {authError ? <p>{authError}</p> : null}
+            </div>
           </div>
         </form>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  //suthError refers to the authError in the authReducer.js
+  return {
+    authError: state.auth.authError,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -57,6 +69,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // export default SignIn;
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
 // mapStateToProps would be the normal first argument so
 // we are passing a null in stead
