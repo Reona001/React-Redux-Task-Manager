@@ -2,6 +2,8 @@
 // rce
 
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { signIn } from "../../store/actions/authActions";
 
 class SignIn extends Component {
   state = {
@@ -43,4 +45,14 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds)),
+    // creds are the credentials we are passing in
+  };
+};
+
+// export default SignIn;
+export default connect(null, mapDispatchToProps)(SignIn);
+// mapStateToProps would be the normal first argument so
+// we are passing a null in stead
