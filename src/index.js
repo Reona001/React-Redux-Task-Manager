@@ -27,7 +27,7 @@ const store = createStore(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }))
     // ⭐️ You cannot have these store enhancers
     // reduxFirestore(firebase, fbConfig),
-    // reactReduxFirebase(firebase, fbConfig)
+    // reactReduxFirebase({ attachAuthIsReady: true })
   )
   //   // redux store enhancer ended with the version 6 update so no longer available
   //   // (instance is passed through the new React context API) -
