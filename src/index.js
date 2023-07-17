@@ -1,43 +1,65 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { createStore, applyMiddleware, compose } from "redux";
 import { createFirestoreInstance } from "redux-firestore";
-
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import {
+  ReactReduxFirebaseProvider,
+  authIsReady,
+  getFirebase,
+  getFirestore,
+} from "react-redux-firebase";
 import rootReducer from "./store/reducers/rootReducer";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import thunk from "redux-thunk";
-
-// import from redux-firestore package
-import { reduxFirestore, getFirestore } from "redux-firestore";
-import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
-
+import { isEmpty } from "react-redux-firebase";
 import fbConfig from "./config/fbConfig";
+// import { getFirebase, getFirestore } from "redux-firestore";
 
 const store = createStore(
   rootReducer,
-  //store enhancers used with compose method
   compose(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }))
-    // ⭐️ You cannot have these store enhancers
-    // reduxFirestore(firebase, fbConfig),
-    // reactReduxFirebase({ attachAuthIsReady: true })
   )
-  //   // redux store enhancer ended with the version 6 update so no longer available
-  //   // (instance is passed through the new React context API) -
-  //   // reduxFirestore(fbConfig)
-  //   // reactReduxFirebase(fbConfig)
 );
-// // We are passing in extra argument, which is an object from the
-// // react-redux-firebase tools, so we can use it in the action creator.
-// // const root = ReactDOM.createRoot(document.getElementById("root"));
-// // createRoot was not functioning so we switched to ReactDOM.render method
+
+const AppWithAuth = () => {
+  const auth = useSelector((state) => state.firebase.auth);
+  const isAuthLoaded = authIsReady(auth) && !isEmpty(auth);
+
+  useEffect(() => {
+    if (isAuthLoaded) {
+      ReactDOM.render(
+        <Provider store={store}>
+          <ReactReduxFirebaseProvider
+            firebase={firebase}
+            config={fbConfig}
+            dispatch={store.dispatch}
+            createFirestoreInstance={createFirestoreInstance}
+          >
+            <React.StrictMode>
+              <App />
+            </React.StrictMode>
+          </ReactReduxFirebaseProvider>
+        </Provider>,
+        document.getElementById("root")
+      );
+    }
+  }, [isAuthLoaded]);
+
+  return <div>Loading...</div>;
+};
+
+const rrfConfig = {
+  firebase,
+  config: fbConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance,
+};
 
 ReactDOM.render(
   <Provider store={store}>
@@ -46,16 +68,10 @@ ReactDOM.render(
       config={fbConfig}
       dispatch={store.dispatch}
       createFirestoreInstance={createFirestoreInstance}
-    >
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+    ></ReactReduxFirebaseProvider>
+    <ReactReduxFirebaseProvider {...rrfConfig}>
+      <AppWithAuth />
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById("root")
 );
-
-// // If you want to start measuring performance in your app, pass a function
-// // to log results (for example: reportWebVitals(console.log))
-// // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
