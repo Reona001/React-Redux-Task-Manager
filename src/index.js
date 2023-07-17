@@ -9,16 +9,19 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import {
   ReactReduxFirebaseProvider,
-  authIsReady,
+  // authIsReady,
   getFirebase,
   getFirestore,
+  isLoaded,
 } from "react-redux-firebase";
 import rootReducer from "./store/reducers/rootReducer";
 import { Provider, useSelector } from "react-redux";
 import thunk from "redux-thunk";
 import { isEmpty } from "react-redux-firebase";
 import fbConfig from "./config/fbConfig";
-// import { getFirebase, getFirestore } from "redux-firestore";
+
+// In this version we cannot use store enhancers
+// ie. reactReduxFirebase(fbConfig, { attachAuthIsReady: true })
 
 const store = createStore(
   rootReducer,
@@ -29,7 +32,7 @@ const store = createStore(
 
 const AppWithAuth = () => {
   const auth = useSelector((state) => state.firebase.auth);
-  const isAuthLoaded = authIsReady(auth) && !isEmpty(auth);
+  const isAuthLoaded = isLoaded(auth) && !isEmpty(auth);
 
   useEffect(() => {
     if (isAuthLoaded) {

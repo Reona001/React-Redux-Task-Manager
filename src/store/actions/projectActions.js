@@ -1,6 +1,11 @@
 export const createProject = (project) => {
-  return (dispatch, getStat, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+
+    // const firestore = getFirestore();
+
+    // console.log("firestore object", firebase.firestore.collection("projects"));
     // This is a promise so we need a then method
     firestore
       .collection("projects")
