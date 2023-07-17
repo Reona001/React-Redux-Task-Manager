@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { signIn } from "../../store/actions/authActions";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 class SignIn extends Component {
   state = {
@@ -29,7 +30,8 @@ class SignIn extends Component {
 
   render() {
     // destructuring this.props
-    const { authError } = this.props;
+    const { authError, auth } = this.props;
+    if (auth.uid) return <Redirect to="/" />;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -54,10 +56,18 @@ class SignIn extends Component {
   }
 }
 
+//⭐️⭐️ we are taking properties which are in held by the state
+// and mapping them to objects we can use in the local component,
+// here we are mapping state.firebase.auth object held by the global state to auth props
+// and inside render we destructure it as const { auth } = this.props
+// which is same as saying const auth = this.props.auth
+// this mapping to props allows you to access state.firebase.auth in the component
+
 const mapStateToProps = (state) => {
-  //suthError refers to the authError in the authReducer.js
+  //authError refers to the authError in the authReducer.js
   return {
     authError: state.auth.authError,
+    auth: state.firebase.auth,
   };
 };
 

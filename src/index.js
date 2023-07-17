@@ -35,7 +35,7 @@ const AppWithAuth = () => {
   const isAuthLoaded = isLoaded(auth) && !isEmpty(auth);
 
   useEffect(() => {
-    if (isAuthLoaded) {
+    if (!isAuthLoaded) {
       ReactDOM.render(
         <Provider store={store}>
           <ReactReduxFirebaseProvider

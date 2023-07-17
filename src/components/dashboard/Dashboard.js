@@ -3,14 +3,19 @@ import React, { Component } from "react";
 import Notifications from "./Notifications";
 import ProjectList from "../projects/ProjectList";
 import { connect } from "react-redux";
-import { firebaseConnect, firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 class Dashboard extends Component {
   render() {
     console.log(this.props);
-    const { projects } = this.props;
+    const { projects, auth } = this.props;
     //destructuring
+    // redirect if auth.uid is not in the destructured props
+    if (!auth.uid) return <Redirect to="/signin" />;
+
     return (
       <div className="dashboard container">
         <div className="row">
@@ -31,6 +36,7 @@ const mapStateToProps = (state) => {
   return {
     // projects: state.project.projects, // dummy data
     projects: state.firestore.ordered.projects,
+    auth: state.firebase.auth,
   };
 };
 // using compose to use multiple hire order functions
