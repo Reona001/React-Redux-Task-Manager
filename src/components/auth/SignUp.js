@@ -59,6 +59,10 @@ class SignUp extends Component {
 
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Sign Up</button>
+            <div className="red-text center">
+              {/* if authError exists then return first */}
+              {authError ? <p>{authError}</p> : null}
+            </div>
           </div>
         </form>
       </div>
@@ -68,7 +72,9 @@ class SignUp extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    // anything here can be accessed in the above component
     auth: state.firebase.auth,
+    authError: state.auth.authError,
   };
 };
 
